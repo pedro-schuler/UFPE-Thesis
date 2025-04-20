@@ -74,13 +74,44 @@
 
 % Configuração do Sumário. Ainda necessita conferência das normas.
 \setrmarg{2.55em}
-\renewcommand{\cftsectionfont}{\bfseries}
+
+% Define o título Sumário e centraliza na página
+\renewcommand{\contentsname}{SUMÁRIO}
+\renewcommand{\printtoctitle}[1]{%
+	\centering\textbf{\MakeUppercase{#1}}\par
+	\vspace{1em}
+}
+
+% Configuração de níveis do sumário
+\renewcommand{\cftsectionfont}{\bfseries\MakeUppercase}
 \renewcommand{\cftsectionpagefont}{\bfseries}
+\renewcommand{\cftsubsectionfont}{\bfseries} % First letter will be capitalized in document
+\renewcommand{\cftsubsectionpagefont}{\bfseries}
+\renewcommand{\cftsubsubsectionfont}{\bfseries} % First letter will be capitalized in document
+\renewcommand{\cftsubsubsectionpagefont}{\bfseries}
+
+% Configura a largura dos números de seção
+\renewcommand{\cftsectionnumwidth}{2em}
+\renewcommand{\cftsubsectionnumwidth}{2.5em}
+\renewcommand{\cftsubsubsectionnumwidth}{3.5em}
+
+% Remove a indentação das entradas
+\setlength{\cftbeforechapterskip}{0pt}
+\setlength{\cftsectionindent}{0em}
+\setlength{\cftsubsectionindent}{0em}
+\setlength{\cftsubsubsectionindent}{0em}
+
+% Espaçamento e pontos
 \renewcommand{\cftsectionleader}{\cftdotfill{\cftsectiondotsep}}
 \renewcommand{\cftsectiondotsep}{\cftdotsep}
+\renewcommand{\cftsubsectionleader}{\cftdotfill{\cftsubsectiondotsep}}
+\renewcommand{\cftsubsectiondotsep}{\cftdotsep}
+
+% Define largura para números de página
+\setpnumwidth{2em}
+
 \settocdepth{subsection}
 \setsecnumdepth{subsubsection}
-\renewcommand{\contentsname}{Sumário}
 
 % Comandos disponíveis
 \newcommand{\ufpetitle}[7][]{%
@@ -161,24 +192,10 @@
 	\restoregeometry
 }
 
-\newcommand{\ufpetoc}{%
-	\renewcommand{\contentsname}{Sumário}
-	%% \aliaspagestyle{tocheadings}{empty} % Make sure TOC uses empty style
-	\pagestyle{empty}
-	\addcontentsline{toc}{section}{\contentsname}
-	\begingroup
-	\SingleSpacing
-	\tableofcontents*
-	\endgroup
-	\thispagestyle{empty} % Explicitly force this page to be empty
-	\clearpage
-}
-
 \newcommand{\ufpeabstract}[4]{%
 	% #1: Resumo em Português, #2: Palavras-chave, #3: Resumo em inglês, #4: Palavras-chave em inglês
 	\thispagestyle{empty}
 	\section*{Resumo}
-	\addcontentsline{toc}{section}{Resumo}
 	#1
 
 	\vspace{1cm}
@@ -186,7 +203,6 @@
 
 	\vspace{2cm}
 	\section*{Abstract}
-	\addcontentsline{toc}{section}{Abstract}
 	#3
 
 	\vspace{1cm}
@@ -196,6 +212,17 @@
 
 \newcommand{\ufpestartcontent}{%
 	\pagestyle{abntheadings}
+}
+
+\newcommand{\ufpetoc}{%
+	%% \aliaspagestyle{tocheadings}{empty} % Make sure TOC uses empty style
+	\pagestyle{empty}
+	\begingroup
+	\OnehalfSpacing
+	\tableofcontents*
+	\endgroup
+	\thispagestyle{empty} % Explicitly force this page to be empty
+	\clearpage
 }
 
 \newcommand{\ufpereferences}{%
@@ -235,7 +262,17 @@
 % \ufpestartcontent
 %
 % % Main content
-% \section{Introdução}
+% % IMPORTANTE: Formatação do Sumário (ABNT NBR 6027)
+% % 1. Seções devem usar \section{TÍTULO EM MAIÚSCULAS}
+% % 2. Subseções devem usar \subsection{Título com apenas primeira letra maiúscula}
+% %    Exemplo correto: \subsection{Metodologia de pesquisa}
+% %    Exemplo incorreto: \subsection{Metodologia De Pesquisa} ou \subsection{METODOLOGIA DE PESQUISA}
+% % 3. Subsubseções seguem a mesma regra das subseções
+% %    Exemplo correto: \subsubsection{Coleta de dados}
+% %    Exemplo incorreto: \subsubsection{Coleta De Dados} ou \subsubsection{COLETA DE DADOS}
+% % Esta formatação é necessária para que o Sumário siga as normas ABNT corretamente.
+%
+% \section{INTRODUÇÃO}
 % Este é um texto de exemplo para a introdução...
 %
 % % More sections...
@@ -243,11 +280,4 @@
 % % Add references
 % \ufpereferences
 %
-% \end{document}
-% % More sections...
-%
-% % Add references
-% \ufpereferences
-%
-% \end{document}
 % \end{document}
