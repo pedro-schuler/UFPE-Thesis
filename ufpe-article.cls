@@ -14,6 +14,7 @@
 \RequirePackage[style=abnt,backend=biber]{biblatex}
 \RequirePackage{indentfirst,hyperref}
 \RequirePackage{booktabs,caption,geometry}
+\RequirePackage{etoolbox} % Adiciona pacote para lidar com múltiplos autores
 
 % Configura as fontes padrão
 \setmainfont{Times New Roman}
@@ -82,31 +83,77 @@
 \renewcommand{\contentsname}{Sumário}
 
 % Comandos disponíveis
-\newcommand{\ufpetitle}[6]{%
-	% #1: Título, #2: Autor, #3: Departamento, #4: Graduação, #5: Disciplina, #6: Data
+\newcommand{\ufpetitle}[7][]{%
+	% #1: Lista de autores (opcional, separados por vírgula), #2: Título, #3: Autor principal (legado), 
+	% #4: Departamento, #5: Graduação, #6: Disciplina, #7: Data
 	\thispagestyle{empty}
-	\title{#1}
-	\author{#2}
+	\title{#2}
+	\author{#3}
 
 	% Altera a geometria da página para o título
 	\newgeometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
 
 	\begin{titlingpage}
 		\begin{center}
-			\vspace*{1cm}
+			\vspace*{0.5cm}% Reduzido de 1cm para 0.5cm
 			\includegraphics[width=0.3\textwidth]{logoUFPE-Versoes.png}\par
 			{\Large\bfseries UNIVERSIDADE FEDERAL DE PERNAMBUCO\par}
-			\vspace{1cm}
-			{\large\bfseries #3\par}
+			\vspace{0.6cm}% Reduzido de 1cm para 0.6cm
 			{\large\bfseries #4\par}
 			{\large\bfseries #5\par}
-			\vspace{4cm}
+			{\large\bfseries #6\par}
+			\vspace{3cm}% Reduzido de 4cm para 3cm
 			{\LARGE\bfseries\MakeUppercase{\thetitle}\par}
-			\vspace{4cm}
-			{\large\bfseries\theauthor\par}
+
+			% Calcula o espaço entre o título e os autores com base no número de autores
+			\ifblank{#1}{%
+				% Se nenhum autor adicional for fornecido, use apenas o autor principal
+				\vspace{3cm}% Reduzido de 4cm para 3cm
+				{\large\bfseries\theauthor\par}
+			}{%
+				% Se autores adicionais forem fornecidos
+				\newcounter{authorcount}
+				\setcounter{authorcount}{1} % Começa com 1 para o autor principal
+
+				% Conta os autores adicionais
+				\def\do##1{\stepcounter{authorcount}}
+				\docsvlist{#1}
+
+				% Ajusta o espaço baseado no número de autores de forma mais agressiva
+				\ifnumgreater{\value{authorcount}}{1}{%
+					\setlength{\dimen0}{3cm - 0.7cm * (\value{authorcount} - 1)}
+					\ifdim\dimen0<1cm\setlength{\dimen0}{1cm}\fi
+					\vspace{\dimen0}
+				}{%
+					\vspace{3cm}% Reduzido de 4cm para 3cm
+				}
+
+				% Imprime o autor principal
+				{\large\bfseries\theauthor\par}
+
+				% Imprime os autores adicionais com espaçamento reduzido
+				\newcounter{authorcounter}
+				\setcounter{authorcounter}{0}
+
+				\renewcommand*{\do}[1]{%
+					\stepcounter{authorcounter}%
+					\ifnumless{\value{authorcounter}}{6}{%
+						\ifnumgreater{\value{authorcount}}{3}{%
+							\vspace{0.2cm}% Espaçamento menor quando há muitos autores
+						}{%
+							\vspace{0.3cm}% Espaçamento normal quando há poucos autores
+						}%
+						{\large\bfseries##1\par}
+					}{}%
+				}
+				\docsvlist{#1}
+			}
+
 			\vfill
+			% Adiciona espaço antes da cidade/data para melhor separação
+			\vspace{0.5cm}
 			{\large RECIFE\\
-				#6 \par}
+				#7 \par}
 		\end{center}
 	\end{titlingpage}
 
@@ -157,11 +204,6 @@
 	\printbibliography[heading=bibintoc]
 }
 
-% Define o estilo padrão para as páginas do início do documento como sendo empty
-\AtBeginDocument{%
-	\pagestyle{empty}
-}
-
 % Exemplo de uso da classe ufpe-article
 %
 % \documentclass{ufpe-article}
@@ -172,12 +214,13 @@
 % \begin{document}
 %
 % % Create the title page
-% \ufpetitle{Título do Artigo}
+% % O primeiro argumento opcional é uma lista de autores adicionais separados por vírgulas
+% \ufpetitle[Ana Silva, João Santos, Maria Oliveira]{Título do Artigo}
 %          {Pedro Malta Schuler Caloête}
 %          {DEPARTAMENTO DE CIÊNCIAS CONTÁBEIS E ATUARIAIS}
 %          {BACHARELADO EM CIÊNCIAS CONTÁBEIS}
 %          {DISCIPLINA}
-%          {DATA}
+%          {2023}
 %
 % % Generate table of contents
 % \ufpetoc
@@ -200,4 +243,11 @@
 % % Add references
 % \ufpereferences
 %
+% \end{document}
+% % More sections...
+%
+% % Add references
+% \ufpereferences
+%
+% \end{document}
 % \end{document}
