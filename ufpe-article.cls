@@ -70,7 +70,11 @@
 \renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 
 % Espaçamento
-\OnehalfSpacing
+%% Espaçamento 1.5 conforme normas ABNT e convenções de tipografia
+%% \OnehalfSpacing
+%% Espaçamento de 1.5 conforme normas ABNT e convenções do Microsoft Word
+\setSingleSpace{1.5}
+\SingleSpacing
 
 % Configuração do Sumário. Ainda necessita conferência das normas.
 \setrmarg{2.55em}
@@ -218,7 +222,7 @@
 	%% \aliaspagestyle{tocheadings}{empty} % Make sure TOC uses empty style
 	\pagestyle{empty}
 	\begingroup
-	\OnehalfSpacing
+	\SingleSpacing
 	\tableofcontents*
 	\endgroup
 	\thispagestyle{empty} % Explicitly force this page to be empty
@@ -238,6 +242,7 @@
 \newenvironment{ufpequotation}{%
 	\begin{adjustwidth}{4cm}{0cm}% Recuo de 4cm da margem esquerda
 		\setlength{\parindent}{0pt}% Sem recuo de primeira linha
+		\setSingleSpace{1.0}% Espaçamento simples entre linhas
 		\SingleSpacing% Espaçamento simples entre linhas
 		\footnotesize% Tamanho de fonte 10pt
 		}{%
