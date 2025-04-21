@@ -1,22 +1,53 @@
+%% ======================================================================
 % ufpe-article.cls - Document class for UFPE academic articles
+% ======================================================================
+% Classe para formatação de artigos acadêmicos segundo normas da UFPE
+% Versão 1.0 - Novembro 2023
+% ======================================================================
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{ufpe-article}[Artigo acadêmico para a UFPE]
 
-% Carrega a Classe memoir e algumas opções padrão
+%% ======================================================================
+% CARREGAMENTO DE CLASSE BASE
+% ======================================================================
+% Carrega a Classe memoir com opções para artigos acadêmicos
 \LoadClass[12pt,a4paper,article]{memoir}
 
-% Carrega os pacotes necessário
-\RequirePackage{luatex85}
-\RequirePackage{amsmath,amssymb,mathtools}
-\RequirePackage{fontspec}
-\RequirePackage[brazilian]{babel}
-\RequirePackage{graphicx,microtype}
-\RequirePackage[style=abnt,backend=biber]{biblatex}
-\RequirePackage{indentfirst,hyperref}
-\RequirePackage{booktabs,caption,geometry}
-\RequirePackage{etoolbox} % Adiciona pacote para lidar com múltiplos autores
+% ======================================================================
+% CARREGAMENTO DE PACOTES
+% ======================================================================
+% Pacotes essenciais e de compatibilidade
+\RequirePackage{luatex85}        % Compatibilidade com versões antigas do LuaTeX
+\RequirePackage{etoolbox}        % Ferramentas para programação em LaTeX
 
-% Configura as fontes padrão
+% Pacotes para idioma e tipografia
+\RequirePackage{fontspec}        % Configuração de fontes para XeLaTeX/LuaTeX
+\RequirePackage[brazilian]{babel}  % Suporte ao idioma português brasileiro
+\RequirePackage{microtype}       % Melhorias tipográficas e micrométrica
+\RequirePackage{indentfirst}     % Indentação no primeiro parágrafo de seções
+
+% Pacotes matemáticos
+\RequirePackage{amsmath,amssymb,mathtools}  % Suporte matemático avançado
+
+% Pacotes para figuras e tabelas
+\RequirePackage{graphicx}        % Inclusão e manipulação de imagens
+\RequirePackage{booktabs}        % Melhores linhas para tabelas
+\RequirePackage{caption}         % Personalização de legendas
+
+% Pacotes para bibliografia
+\RequirePackage[style=abnt,backend=biber]{biblatex}  % Formatação ABNT para referências
+
+% Pacotes para layout e geometria
+\RequirePackage{geometry}        % Configurações avançadas de geometria da página
+
+% Pacotes para links e referências
+\RequirePackage{hyperref}        % Suporte a hiperlinks e referências cruzadas
+
+% ======================================================================
+% CONFIGURAÇÃO DE FONTES
+% ======================================================================
+% Configura as fontes padrão conforme normas ABNT
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
 \setmonofont{Courier New}
@@ -30,33 +61,39 @@
 \renewcommand{\Large}{\fontsize{17.28pt}{22pt}\selectfont}
 \normalsize
 
-% Configurações de espaçamento no início do parágrafo
-\setlength{\parindent}{1.25cm}
-
+% ======================================================================
+% CONFIGURAÇÃO DE MARGENS E LAYOUT
+% ======================================================================
 % Margens de acordo com as normas ABNT
 \setlrmarginsandblock{3cm}{2cm}{*}
 \setulmarginsandblock{3cm}{2cm}{*}
 \checkandfixthelayout
 
-% Define os estiles de cabeçalho e rodapé mais simples
+% Configurações de espaçamento no início do parágrafo
+\setlength{\parindent}{1.25cm}
+
+% ======================================================================
+% CONFIGURAÇÃO DE CABEÇALHOS E RODAPÉS
+% ======================================================================
+% Define os estilos de cabeçalho e rodapé simples com numeração de página
 \makepagestyle{abntheadings}
 \makeevenhead{abntheadings}{\thepage}{}{}
 \makeoddhead{abntheadings}{}{}{\thepage}
 \makeevenfoot{abntheadings}{}{}{}
 \makeoddfoot{abntheadings}{}{}{}
 
-\makepagestyle{plainheadings}
-\makeevenhead{plainheadings}{\thepage}{}{}
-\makeoddhead{plainheadings}{}{}{\thepage}
-\makeevenfoot{plainheadings}{}{}{}
-\makeoddfoot{plainheadings}{}{}{}
+% Aplica o mesmo estilo para páginas comuns e especiais
+\aliaspagestyle{plain}{abntheadings}
+\aliaspagestyle{title}{empty}
 
-\aliaspagestyle{plain}{plainheadings}
-
+% Configuração de altura do cabeçalho
 \setlength{\headheight}{14.5pt}
 \setlength{\headsep}{0.7cm}
 
-% Formatação dos títulos de seção
+% ======================================================================
+% FORMATAÇÃO DE SEÇÕES E TÍTULOS
+% ======================================================================
+% Formatação dos títulos de seção conforme ABNT
 \setsecheadstyle{\normalsize\bfseries\MakeUppercase}
 \setsubsecheadstyle{\normalsize\bfseries\MakeUppercase}
 \setsubsubsecheadstyle{\normalsize\bfseries\itshape}
@@ -69,126 +106,179 @@
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 
-% Espaçamento
+% ======================================================================
+% CONFIGURAÇÃO DE ESPAÇAMENTO
+% ======================================================================
 %% Espaçamento 1.5 conforme normas ABNT e convenções de tipografia
 %% \OnehalfSpacing
 %% Espaçamento de 1.5 conforme normas ABNT e convenções do Microsoft Word
 \setSingleSpace{1.5}
 \SingleSpacing
 
-% Configuração do Sumário. Ainda necessita conferência das normas.
-\setrmarg{2.55em}
-
-% Define o título Sumário e centraliza na página
+% ======================================================================
+% CONFIGURAÇÃO DO SUMÁRIO (TOC)
+% ======================================================================
+% Define título e formatação
 \renewcommand{\contentsname}{SUMÁRIO}
 \renewcommand{\printtoctitle}[1]{%
 	\centering\textbf{\MakeUppercase{#1}}\par
 	\vspace{1em}
 }
 
-% Configuração de níveis do sumário
+% Configurações unificadas de formatação do sumário
+% Fontes para entradas de seção
 \renewcommand{\cftsectionfont}{\bfseries\MakeUppercase}
 \renewcommand{\cftsectionpagefont}{\bfseries}
-\renewcommand{\cftsubsectionfont}{\bfseries} % First letter will be capitalized in document
+\renewcommand{\cftsubsectionfont}{\bfseries}
 \renewcommand{\cftsubsectionpagefont}{\bfseries}
-\renewcommand{\cftsubsubsectionfont}{\bfseries} % First letter will be capitalized in document
+\renewcommand{\cftsubsubsectionfont}{\bfseries}
 \renewcommand{\cftsubsubsectionpagefont}{\bfseries}
 
-% Configura a largura dos números de seção
+% Largura dos números de seção
 \renewcommand{\cftsectionnumwidth}{2em}
 \renewcommand{\cftsubsectionnumwidth}{2.5em}
 \renewcommand{\cftsubsubsectionnumwidth}{3.5em}
 
-% Remove a indentação das entradas
-\setlength{\cftbeforechapterskip}{0pt}
+% Remover indentação e configurar espaçamento
 \setlength{\cftsectionindent}{0em}
 \setlength{\cftsubsectionindent}{0em}
 \setlength{\cftsubsubsectionindent}{0em}
+\setlength{\cftbeforechapterskip}{0pt}
 
-% Espaçamento e pontos
+% Configurar pontos líderes (pontilhado)
 \renewcommand{\cftsectionleader}{\cftdotfill{\cftsectiondotsep}}
 \renewcommand{\cftsectiondotsep}{\cftdotsep}
-\renewcommand{\cftsubsectionleader}{\cftdotfill{\cftsubsectiondotsep}}
-\renewcommand{\cftsubsectiondotsep}{\cftdotsep}
+\renewcommand{\cftsubsectionleader}{\cftdotfill{\cftsectiondotsep}}
+\renewcommand{\cftsubsectiondotsep}{\cftsectiondotsep}
 
-% Define largura para números de página
+% Outras configurações do sumário
+\setrmarg{2.55em}
 \setpnumwidth{2em}
-
 \settocdepth{subsection}
 \setsecnumdepth{subsubsection}
 
-% Comandos disponíveis
+% ======================================================================
+% CONFIGURAÇÃO DA PÁGINA DE REFERÊNCIAS
+% ======================================================================
+% Redefine o estilo de cabeçalho bibliográfico para centralizar e usar maiúsculas
+\defbibheading{bibintoc}[\refname]{%
+	\clearpage
+	\phantomsection
+	\addcontentsline{toc}{section}{\uppercase{#1}}
+	\markboth{\uppercase{#1}}{\uppercase{#1}}%
+	{\centering\textbf{\MakeUppercase{#1}}\par}
+	\vspace{1em}
+	\par\nobreak
+}
+
+% ======================================================================
+% VARIÁVEIS DE CONTROLE PARA VERIFICAÇÃO DE FLUXO
+% ======================================================================
+% Define os condicionais internos
+\newif\if@tocgenerated
+\@tocgeneratedfalse
+
+\newif\if@abstractused
+\@abstractusedfalse
+
+% ======================================================================
+% FUNÇÕES AUXILIARES INTERNAS
+% ======================================================================
+% Processa a lista de autores adicionais
+\newcommand{\@processauthorlist}[2]{%
+	% #1 = autor principal, #2 = lista de autores adicionais
+	% Imprime o autor principal
+	\vspace{2.5cm}
+	{\normalsize\bfseries #1\par}
+
+	% Define o tratamento para cada autor adicional
+	\def\do##1{%
+		\vspace{0.2cm}% Espaçamento mínimo entre autores
+		{\normalsize\bfseries ##1\par}%
+	}
+
+	% Processa a lista de autores adicionais (se houver)
+	\docsvlist{#2}
+}
+
+% Função auxiliar para cabeçalho institucional
+\newcommand{\@institutiontitleheader}[3]{%
+	\vspace*{0.2cm}% Espaço um pouco reduzido do padrão
+	\includegraphics[width=0.3\textwidth]{UFPE-Logo.png}\par
+	{\Large\bfseries UNIVERSIDADE FEDERAL DE PERNAMBUCO\par}
+	\vspace{0.4cm}
+	{\large\bfseries #1\par}
+	{\large\bfseries #2\par}
+	{\large\bfseries #3\par}
+}
+
+% Função auxiliar para rodapé da página de título
+\newcommand{\@titlefooter}[1]{%
+	\vfill
+	\vspace{0.3cm}
+	{\large RECIFE\\
+		#1 \par}
+}
+
+% ======================================================================
+% COMANDOS E AMBIENTES PERSONALIZADOS
+% ======================================================================
+
+% ---------------------------------------------------------------------
+% Comando para página de título
+% #1: Lista de autores (opcional, separados por vírgula)
+% #2: Título
+% #3: Autor principal (legado)
+% #4: Departamento
+% #5: Graduação
+% #6: Disciplina
+% #7: Data
+% ---------------------------------------------------------------------
 \newcommand{\ufpetitle}[7][]{%
-	% #1: Lista de autores (opcional, separados por vírgula), #2: Título, #3: Autor principal (legado), 
+	% #1: Lista de autores (opcional), #2: Título, #3: Autor principal
 	% #4: Departamento, #5: Graduação, #6: Disciplina, #7: Data
+
+	% Verificações de parâmetros obrigatórios
+	\ifx\relax#2\relax
+		\PackageError{ufpe-article}{Título do trabalho não fornecido}%
+		{O comando \protect\ufpetitle precisa de um título como segundo parâmetro.}%
+	\fi
+
+	\ifx\relax#3\relax
+		\PackageError{ufpe-article}{Nome do autor principal não fornecido}%
+		{O comando \protect\ufpetitle precisa do autor principal como terceiro parâmetro.}%
+	\fi
+
+	\ifx\relax#4\relax
+		\PackageError{ufpe-article}{Departamento não fornecido}%
+		{O comando \protect\ufpetitle precisa do departamento como quarto parâmetro.}%
+	\fi
+
 	\thispagestyle{empty}
 	\title{#2}
 	\author{#3}
 
 	% Altera a geometria da página para o título
-	\newgeometry{left=2cm, right=2cm, top=2cm, bottom=2cm}
+	\newgeometry{left=2cm, right=2cm, top=1cm, bottom=2cm}
 
 	\begin{titlingpage}
 		\begin{center}
-			\vspace*{0.5cm}% Reduzido de 1cm para 0.5cm
-			\includegraphics[width=0.3\textwidth]{UFPE-Logo.png}\par
-			{\Large\bfseries UNIVERSIDADE FEDERAL DE PERNAMBUCO\par}
-			\vspace{0.6cm}% Reduzido de 1cm para 0.6cm
-			{\large\bfseries #4\par}
-			{\large\bfseries #5\par}
-			{\large\bfseries #6\par}
-			\vspace{3cm}% Reduzido de 4cm para 3cm
+			\@institutiontitleheader{#4}{#5}{#6}
+
+			% Título centralizado - mais espaço entre cabeçalho e título
+			\vspace{2.5cm}
 			{\LARGE\bfseries\MakeUppercase{\thetitle}\par}
 
-			% Calcula o espaço entre o título e os autores com base no número de autores
 			\ifblank{#1}{%
-				% Se nenhum autor adicional for fornecido, use apenas o autor principal
-				\vspace{3cm}% Reduzido de 4cm para 3cm
-				{\large\bfseries\theauthor\par}
+				% Apenas autor principal
+				\vspace{2.5cm}
+				{\normalsize\bfseries\theauthor\par}
 			}{%
-				% Se autores adicionais forem fornecidos
-				\newcounter{authorcount}
-				\setcounter{authorcount}{1} % Começa com 1 para o autor principal
-
-				% Conta os autores adicionais
-				\def\do##1{\stepcounter{authorcount}}
-				\docsvlist{#1}
-
-				% Ajusta o espaço baseado no número de autores de forma mais agressiva
-				\ifnumgreater{\value{authorcount}}{1}{%
-					\setlength{\dimen0}{3cm - 0.7cm * (\value{authorcount} - 1)}
-					\ifdim\dimen0<1cm\setlength{\dimen0}{1cm}\fi
-					\vspace{\dimen0}
-				}{%
-					\vspace{3cm}% Reduzido de 4cm para 3cm
-				}
-
-				% Imprime o autor principal
-				{\large\bfseries\theauthor\par}
-
-				% Imprime os autores adicionais com espaçamento reduzido
-				\newcounter{authorcounter}
-				\setcounter{authorcounter}{0}
-
-				\renewcommand*{\do}[1]{%
-					\stepcounter{authorcounter}%
-					\ifnumless{\value{authorcounter}}{6}{%
-						\ifnumgreater{\value{authorcount}}{3}{%
-							\vspace{0.2cm}% Espaçamento menor quando há muitos autores
-						}{%
-							\vspace{0.3cm}% Espaçamento normal quando há poucos autores
-						}%
-						{\large\bfseries##1\par}
-					}{}%
-				}
-				\docsvlist{#1}
+				% Se há autores adicionais, processa a lista completa
+				\@processauthorlist{\theauthor}{#1}
 			}
 
-			\vfill
-			% Adiciona espaço antes da cidade/data para melhor separação
-			\vspace{0.5cm}
-			{\large RECIFE\\
-				#7 \par}
+			\@titlefooter{#7}
 		\end{center}
 	\end{titlingpage}
 
@@ -196,8 +286,27 @@
 	\restoregeometry
 }
 
+% ---------------------------------------------------------------------
+% Comando para resumo/abstract
+% #1: Resumo em Português
+% #2: Palavras-chave
+% #3: Resumo em inglês
+% #4: Palavras-chave em inglês
+% ---------------------------------------------------------------------
 \newcommand{\ufpeabstract}[4]{%
-	% #1: Resumo em Português, #2: Palavras-chave, #3: Resumo em inglês, #4: Palavras-chave em inglês
+	\global\@abstractusedtrue % Marca que o abstract foi utilizado (global para afetar todo o documento)
+
+	% Verificação apenas dos parâmetros fornecidos (não do uso do comando)
+	\ifx\relax#1\relax
+		\PackageWarning{ufpe-article}{Texto do resumo em português não fornecido}%
+		{O comando \protect\ufpeabstract foi usado mas sem texto para o resumo.}%
+	\fi
+
+	\ifx\relax#3\relax
+		\PackageWarning{ufpe-article}{Texto do abstract em inglês não fornecido}%
+		{O comando \protect\ufpeabstract foi usado mas sem texto para o abstract.}%
+	\fi
+
 	\thispagestyle{empty}
 	\section*{Resumo}
 	#1
@@ -214,10 +323,33 @@
 	\clearpage
 }
 
+% ---------------------------------------------------------------------
+% Comando para iniciar o conteúdo principal
+% ---------------------------------------------------------------------
 \newcommand{\ufpestartcontent}{%
+	\if@tocgenerated
+		% Sumário já foi gerado, tudo certo
+	\else
+		\PackageInfo{ufpe-article}{Sumário não foi gerado antes do conteúdo}%
+		{Normalmente usa-se \protect\ufpetoc antes de \protect\ufpestartcontent.}%
+		% Gera o sumário automaticamente
+		\ufpetoc
+	\fi
+
+	% Verifica de forma informativa se o resumo foi incluído
+	\if@abstractused
+		% Abstract foi usado, tudo certo
+	\else
+		\PackageInfo{ufpe-article}{Resumo/abstract não foi incluído}%
+		{Embora opcional, recomenda-se incluir resumo em trabalhos acadêmicos.}%
+	\fi
+
 	\pagestyle{abntheadings}
 }
 
+% ---------------------------------------------------------------------
+% Comando para gerar o sumário
+% ---------------------------------------------------------------------
 \newcommand{\ufpetoc}{%
 	%% \aliaspagestyle{tocheadings}{empty} % Make sure TOC uses empty style
 	\pagestyle{empty}
@@ -225,38 +357,64 @@
 	\SingleSpacing
 	\tableofcontents*
 	\endgroup
-	\thispagestyle{empty} % Explicitly force this page to be empty
+	\thispagestyle{empty} % Força essa página a não ter cabeçalho
 	\clearpage
+	\global\@tocgeneratedtrue % Marca que o sumário foi gerado (global)
 }
 
+% ---------------------------------------------------------------------
+% Comando para formatar as referências
+% ---------------------------------------------------------------------
 \newcommand{\ufpereferences}{%
-	\clearpage
-	\renewcommand{\bibname}{Referências}
+	\renewcommand{\bibname}{REFERÊNCIAS}
+	\renewcommand{\refname}{REFERÊNCIAS}
 	\printbibliography[heading=bibintoc]
 }
 
-% Cria o ambiente para citações longas segundo normas da ABNT
+% ---------------------------------------------------------------------
+% Ambiente para citações longas segundo normas da ABNT
 % Esse ambiente formata citações com recuo de 4cm da margem esquerda,
 % espaçamento simples entre linhas e tamanho de fonte 10pt.
 % Não aplica recuo de primeira linha para manter todo o texto alinhado.
+% ---------------------------------------------------------------------
 \newenvironment{ufpequotation}{%
+	% Verifica se não está aninhada em outra citação
+	\@ifundefined{@inquote}{}{%
+		\PackageError{ufpe-article}{ufpequotation aninhada detectada}%
+		{Não é permitido aninhar ambientes de citação.}%
+	}%
+	\def\@inquote{true}%
+
+	% Verifica se algum texto foi digitado antes de abrir a citação
+	\ifhmode
+		\par
+	\fi
+
+	\par\vspace{0.5\baselineskip}% Adiciona espaço antes
 	\begin{adjustwidth}{4cm}{0cm}% Recuo de 4cm da margem esquerda
 		\setlength{\parindent}{0pt}% Sem recuo de primeira linha
-		\setSingleSpace{1.0}% Espaçamento simples entre linhas
-		\SingleSpacing% Espaçamento simples entre linhas
-		\footnotesize% Tamanho de fonte 10pt
-		}{%
+		\begin{Spacing}{1.0}% Espaçamento simples entre linhas usando o ambiente
+			\footnotesize% Tamanho de fonte 10pt
+			}{%
+		\end{Spacing}%
 	\end{adjustwidth}%
+	\par\vspace{0.5\baselineskip}% Adiciona espaço depois
+	\let\@inquote\relax % Limpa a flag
 }
 
-% Comando alternativo para citações longas com mesma formatação
+% ---------------------------------------------------------------------
+% Comando alternativo para citações longas
 % Uso: \ufpequote{Texto da citação}
+% ---------------------------------------------------------------------
 \newcommand{\ufpequote}[1]{%
 	\begin{ufpequotation}
 		#1
 	\end{ufpequotation}
 }
 
+% ======================================================================
+% DOCUMENTAÇÃO DE USO
+% ======================================================================
 % Exemplo de uso da classe ufpe-article
 %
 % \documentclass{ufpe-article}
