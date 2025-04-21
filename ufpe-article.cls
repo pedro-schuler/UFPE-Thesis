@@ -127,7 +127,7 @@
 	\begin{titlingpage}
 		\begin{center}
 			\vspace*{0.5cm}% Reduzido de 1cm para 0.5cm
-			\includegraphics[width=0.3\textwidth]{logoUFPE-Versoes.png}\par
+			\includegraphics[width=0.3\textwidth]{UFPE-Logo.png}\par
 			{\Large\bfseries UNIVERSIDADE FEDERAL DE PERNAMBUCO\par}
 			\vspace{0.6cm}% Reduzido de 1cm para 0.6cm
 			{\large\bfseries #4\par}
@@ -229,6 +229,27 @@
 	\clearpage
 	\renewcommand{\bibname}{Referências}
 	\printbibliography[heading=bibintoc]
+}
+
+% Cria o ambiente para citações longas segundo normas da ABNT
+% Esse ambiente formata citações com recuo de 4cm da margem esquerda,
+% espaçamento simples entre linhas e tamanho de fonte 10pt.
+% Não aplica recuo de primeira linha para manter todo o texto alinhado.
+\newenvironment{ufpequotation}{%
+	\begin{adjustwidth}{4cm}{0cm}% Recuo de 4cm da margem esquerda
+		\setlength{\parindent}{0pt}% Sem recuo de primeira linha
+		\SingleSpacing% Espaçamento simples entre linhas
+		\footnotesize% Tamanho de fonte 10pt
+		}{%
+	\end{adjustwidth}%
+}
+
+% Comando alternativo para citações longas com mesma formatação
+% Uso: \ufpequote{Texto da citação}
+\newcommand{\ufpequote}[1]{%
+	\begin{ufpequotation}
+		#1
+	\end{ufpequotation}
 }
 
 % Exemplo de uso da classe ufpe-article
