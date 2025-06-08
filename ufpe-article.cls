@@ -44,6 +44,9 @@
 % Pacotes para links e referências
 \RequirePackage{hyperref}        % Suporte a hiperlinks e referências cruzadas
 
+% Pacotes para citações
+\RequirePackage{csquotes}
+
 % ======================================================================
 % CONFIGURAÇÃO DE FONTES
 % ======================================================================
@@ -203,8 +206,7 @@
 
 % Função auxiliar para cabeçalho institucional
 \newcommand{\@institutiontitleheader}[3]{%
-	\vspace*{0.2cm}% Espaço um pouco reduzido do padrão
-	\includegraphics[width=0.3\textwidth]{UFPE-Logo.png}\par
+	\includegraphics[width=0.15\textwidth]{logo-universidade.png}\par
 	{\Large\bfseries UNIVERSIDADE FEDERAL DE PERNAMBUCO\par}
 	\vspace{0.4cm}
 	{\large\bfseries #1\par}
@@ -214,10 +216,8 @@
 
 % Função auxiliar para rodapé da página de título
 \newcommand{\@titlefooter}[1]{%
-	\vfill
-	\vspace{0.3cm}
 	{\large RECIFE\\
-		#1 \par}
+			#1 \par}
 }
 
 % ======================================================================
@@ -240,18 +240,15 @@
 
 	% Verificações de parâmetros obrigatórios
 	\ifx\relax#2\relax
-		\PackageError{ufpe-article}{Título do trabalho não fornecido}%
-		{O comando \protect\ufpetitle precisa de um título como segundo parâmetro.}%
+		\PackageError{ufpe-article}{Título do trabalho não fornecido. O comando \protect\ufpetitle precisa de um título como segundo parâmetro.}%
 	\fi
 
 	\ifx\relax#3\relax
-		\PackageError{ufpe-article}{Nome do autor principal não fornecido}%
-		{O comando \protect\ufpetitle precisa do autor principal como terceiro parâmetro.}%
+		\PackageError{ufpe-article}{Nome do autor principal não fornecido. O comando \protect\ufpetitle precisa do autor principal como terceiro parâmetro.}%
 	\fi
 
 	\ifx\relax#4\relax
-		\PackageError{ufpe-article}{Departamento não fornecido}%
-		{O comando \protect\ufpetitle precisa do departamento como quarto parâmetro.}%
+		\PackageError{ufpe-article}{Departamento não fornecido. O comando \protect\ufpetitle precisa do departamento como quarto parâmetro.}%
 	\fi
 
 	\thispagestyle{empty}
@@ -263,10 +260,11 @@
 
 	\begin{titlingpage}
 		\begin{center}
+			\vspace*{0.2cm}% Espaço um pouco reduzido do padrão
 			\@institutiontitleheader{#4}{#5}{#6}
 
 			% Título centralizado - mais espaço entre cabeçalho e título
-			\vspace{2.5cm}
+			\vspace{4.5cm}
 			{\LARGE\bfseries\MakeUppercase{\thetitle}\par}
 
 			\ifblank{#1}{%
@@ -278,6 +276,8 @@
 				\@processauthorlist{\theauthor}{#1}
 			}
 
+			\vfill
+			\vspace{0.3cm}
 			\@titlefooter{#7}
 		\end{center}
 	\end{titlingpage}
@@ -298,13 +298,11 @@
 
 	% Verificação apenas dos parâmetros fornecidos (não do uso do comando)
 	\ifx\relax#1\relax
-		\PackageWarning{ufpe-article}{Texto do resumo em português não fornecido}%
-		{O comando \protect\ufpeabstract foi usado mas sem texto para o resumo.}%
+		\PackageWarning{ufpe-article}{Texto do resumo em português não fornecido. O comando \protect\ufpeabstract foi usado mas sem texto para o resumo.}%
 	\fi
 
 	\ifx\relax#3\relax
-		\PackageWarning{ufpe-article}{Texto do abstract em inglês não fornecido}%
-		{O comando \protect\ufpeabstract foi usado mas sem texto para o abstract.}%
+		\PackageWarning{ufpe-article}{Texto do abstract em inglês não fornecido. O comando \protect\ufpeabstract foi usado mas sem texto para o abstract.}%
 	\fi
 
 	\thispagestyle{empty}
@@ -330,8 +328,7 @@
 	\if@tocgenerated
 		% Sumário já foi gerado, tudo certo
 	\else
-		\PackageInfo{ufpe-article}{Sumário não foi gerado antes do conteúdo}%
-		{Normalmente usa-se \protect\ufpetoc antes de \protect\ufpestartcontent.}%
+		\PackageInfo{ufpe-article}{Sumário não foi gerado antes do conteúdo. Normalmente usa-se \protect\ufpetoc antes de \protect\ufpestartcontent.}%
 		% Gera o sumário automaticamente
 		\ufpetoc
 	\fi
@@ -340,8 +337,7 @@
 	\if@abstractused
 		% Abstract foi usado, tudo certo
 	\else
-		\PackageInfo{ufpe-article}{Resumo/abstract não foi incluído}%
-		{Embora opcional, recomenda-se incluir resumo em trabalhos acadêmicos.}%
+		\PackageInfo{ufpe-article}{Resumo/abstract não foi incluído. Embora opcional, recomenda-se incluir resumo em trabalhos acadêmicos.}%
 	\fi
 
 	\pagestyle{abntheadings}
@@ -354,7 +350,6 @@
 	%% \aliaspagestyle{tocheadings}{empty} % Make sure TOC uses empty style
 	\pagestyle{empty}
 	\begingroup
-	\SingleSpacing
 	\tableofcontents*
 	\endgroup
 	\thispagestyle{empty} % Força essa página a não ter cabeçalho
@@ -380,8 +375,7 @@
 \newenvironment{ufpequotation}{%
 	% Verifica se não está aninhada em outra citação
 	\@ifundefined{@inquote}{}{%
-		\PackageError{ufpe-article}{ufpequotation aninhada detectada}%
-		{Não é permitido aninhar ambientes de citação.}%
+		\PackageError{ufpe-article}{ufpequotation aninhada detectada. Não é permitido aninhar ambientes de citação.}%
 	}%
 	\def\@inquote{true}%
 
