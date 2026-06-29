@@ -47,6 +47,8 @@
 \RequirePackage{graphicx}
 %\RequirePackage{booktabs}
 \UseTblrLibrary{booktabs}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
 
 % ======================================================================
 % CONFIGURAÇÃO DE FONTES
@@ -105,4 +107,19 @@
 	\end{center}
 
 	\vspace{0.5cm}
+}
+
+% ======================================================================
+% Definição de ambiente de alerta para padronizar os elementos
+% ======================================================================
+\newtcolorbox{alerta}[1]{%
+	colback=red9,           % Cor de fundo (tom bem claro de vermelho do ninecolors)
+	colframe=red4,          % Cor da borda/cabeçalho (o red4 solicitado)
+	coltitle=white,         % Cor do texto do título
+	fonttitle=\bfseries,    % Fonte do título em negrito
+	title=#1,               % Define o argumento como o título da caixa
+	sharp corners=downhill, % Efeito estético nas quinas (opcional)
+	enhanced,               % Ativa recursos avançados de estilização
+	attach boxed title to top left={yshift=-2mm, xshift=2mm}, % Posiciona o título como uma aba
+	boxed title style={colback=red4}, % Fundo da aba do título
 }
