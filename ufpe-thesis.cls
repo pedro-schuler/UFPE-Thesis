@@ -1,21 +1,58 @@
-% ufpe-thesis.cls - Document class for UFPE academic theses and dissertations
+%% ======================================================================
+% ufpe-article.cls - Document class for UFPE academic articles
+% ======================================================================
+% Classe para formatação de artigos acadêmicos segundo normas da UFPE
+% Versão 1.0 - Novembro 2023
+% ======================================================================
+
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{ufpe-thesis}[Tese/dissertação acadêmica para a UFPE]
 
-% Carrega a Classe memoir e algumas opções padrão
+%% ======================================================================
+% CARREGAMENTO DE CLASSE BASE
+% ======================================================================
+% Carrega a Classe memoir com opções para artigos acadêmicos
 \LoadClass[12pt,a4paper]{memoir}
 
-% Carrega os pacotes necessário
-\RequirePackage{luatex85}
-\RequirePackage{amsmath,amssymb,mathtools}
-\RequirePackage{fontspec}
-\RequirePackage[brazilian]{babel}
-\RequirePackage{graphicx,microtype}
-\RequirePackage[style=abnt,backend=biber]{biblatex}
-\RequirePackage{indentfirst,hyperref}
-\RequirePackage{booktabs,caption,geometry}
+% ======================================================================
+% CARREGAMENTO DE PACOTES
+% ======================================================================
+% Pacotes essenciais e de compatibilidade
+\RequirePackage{luatex85}        % Compatibilidade com versões antigas do LuaTeX
+\RequirePackage{etoolbox}        % Ferramentas para programação em LaTeX
 
-% Configura as fontes padrão
+% Pacotes para idioma e tipografia
+\RequirePackage{fontspec}        % Configuração de fontes para XeLaTeX/LuaTeX
+\RequirePackage[brazilian]{babel}  % Suporte ao idioma português brasileiro
+\RequirePackage{microtype}       % Melhorias tipográficas e micrométrica
+\RequirePackage{indentfirst}     % Indentação no primeiro parágrafo de seções
+
+% Pacotes matemáticos
+\RequirePackage{amsmath,amssymb,mathtools}  % Suporte matemático avançado
+
+% Pacotes para figuras e tabelas
+\RequirePackage{graphicx}        % Inclusão e manipulação de imagens
+%\RequirePackage{booktabs}        % Melhores linhas para tabelas
+\RequirePackage{caption}         % Personalização de legendas
+\RequirePackage{tabularray}      % Melhor ambiente de tabelas
+\UseTblrLibrary{booktabs}
+
+% Pacotes para bibliografia
+\RequirePackage[style=abnt,backend=biber]{biblatex}  % Formatação ABNT para referências
+
+% Pacotes para layout e geometria
+\RequirePackage{geometry}        % Configurações avançadas de geometria da página
+
+% Pacotes para links e referências
+\RequirePackage{hyperref}        % Suporte a hiperlinks e referências cruzadas
+
+% Pacotes para citações
+\RequirePackage{csquotes}
+
+% ======================================================================
+% CONFIGURAÇÃO DE FONTES
+% ======================================================================
+% Configura as fontes padrão conforme normas ABNT
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
 \setmonofont{Courier New}

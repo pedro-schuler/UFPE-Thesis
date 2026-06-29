@@ -1,0 +1,172 @@
+\documentclass[letterpaper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[utf8]{inputenc}
+\usepackage{titleps}
+\usepackage[affil-it]{authblk}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{sectsty}
+\usepackage{titling}
+\usepackage{titletoc}
+\usepackage{pifont}
+
+% Tables and Figures
+\usepackage{lscape}
+\usepackage[bf,sf,justification=centering,font=small]{caption}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage{multicol}
+\usepackage{threeparttable}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{lipsum}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks,%
+citecolor=RoyalBlue,%
+filecolor=RoyalBlue,%
+linkcolor=RoyalBlue,%
+urlcolor=RoyalBlue
+}
+
+% Citations
+\usepackage{natbib}
+\newcommand{\citetapos}[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+
+% Math environment
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+
+\usepackage{nicefrac}
+\newcommand{\xmark}{\ding{55}}%
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}[]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{propapen}{Proposition}[section]
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+\subsubsectionfont{\normalsize\mdseries\itshape}
+
+% Invisible section
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}}
+
+% Space within tabular
+\renewcommand{\arraystretch}{1.2}
+
+\newpagestyle{online}{%
+  \sethead{}{}{\bf For Online Publication}%
+  \setfoot{}{\thepage}{}%
+  \setheadrule{0pt}%
+  \setfootrule{0pt}%
+}
+
+%\renewcommand{\footnotesize}{\fontsize{12pt}{13pt}\selectfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Título do Paper-Projeto \\ Exemplo}
+\makeatletter\let\Title\@title\makeatother
+
+\title{\Large \textbf{\Title}%
+\thanks{Adicione aqui o agradecimento a pessoas que contribuíram com a sua pesquisa.}}
+
+\author{\large Autor\thanks{Universidade ..., e-mail: 
+\href{mailto:nome@dominio}{nome@dominio}.} \and Autor 2\thanks{Universidade ..., e-mail: \href{mailto:nome2@dominio}{nome2@dominio}.}}
+\date{\normalsize \today}
+\date{\today}
+
+\maketitle
+
+
+\begin{abstract}
+Resumo do paper-projeto \textbf{aqui}.
+\medskip
+
+%\noindent \textit{JEL codes}: D91, I21, I23, J24.
+\medskip
+
+\noindent \textit{Keywords}: palavras-chave.
+\end{abstract}
+
+\doublespacing
+
+\setlength\abovedisplayskip{5pt}
+\setlength\belowdisplayskip{5pt}
+
+\thispagestyle{empty}\clearpage
+
+\section{Introdução}
+
+Na introdução, seja claro na motivação e explique a pergunta que quer responder. Diga qual será a estratégia de identificação e, em termos gerais, explique como é o institutional background da ideia. Situe o trabalho em relação à literatura envolvida e seja claro sobre a contribuição que pretende dar.
+
+
+\section{Institutional Background}\label{inst}
+
+Texto.
+
+\subsection{Subseção}
+
+
+
+\section{Seção de Dados}\label{data}
+
+Nesta seção, explique a(s) fonte(s) de dados que utilizará para realizar o trabalho; além disso, explique as variáveis que pretende usar (se não for trivial ou comum na literatura, descreva como ela será construída). Se possível, apresente estatísticas descritivas também (na maioria dos casos, mesmo sem gerar os resultados da pesquisa, é possível obter os dados -- pelo menos, uma parte)
+
+
+\subsection{Estatísticas Descritivas} \label{desc}
+
+Estatísticas descritivas \textbf{NÃO SÃO RESULTADO!!! ELAS SÃO USADAS PARA REALIZAR UM DIAGNÓSTICO DOS DADOS.}
+
+\section{Estratégia Empírica} \label{method}
+
+
+Esta é a parte onde explicitará o modelo econométrico, procurando descrever como/porquê a modelagem resolve o problema de endogeneidade (procure ser bem claro na explicação do método adotado para identificar uma relação causal).
+
+Exemplo de equação:
+\begin{equation}
+    Y_{i} = \beta_{0} + \beta_{1} \, T_{i} + X\gamma + u_{i} \label{eq03}
+\end{equation}
+
+Comente também, nesta seção, os testes de robustez/falsificação que pretende usar para defender a sua identificação.
+
+Para fazer citações do tipo \citet{angrist2008mostly} ou \citep{angrist2008mostly}, busque o artigo no google acadêmico, localize as \textit{duas aspas}, e selecione BibTex. Depois, copie e cole no arquivo ``references.bib''. Nunca mais perca tempo preparando referências...
+
+\section{Resultados}\label{results}
+
+...
+
+\section{Conclusão}\label{conclusion}
+
+...
+
+
+
+\bigskip
+
+\singlespacing
+\bibliographystyle{apalike}
+\bibliography{references}
+
+%\input{figures}
+%\input{tables}
+
+%\include{appendix}
+
+\end{document}
+

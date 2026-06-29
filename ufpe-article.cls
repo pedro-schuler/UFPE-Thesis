@@ -32,8 +32,10 @@
 
 % Pacotes para figuras e tabelas
 \RequirePackage{graphicx}        % Inclusão e manipulação de imagens
-\RequirePackage{booktabs}        % Melhores linhas para tabelas
+%\RequirePackage{booktabs}        % Melhores linhas para tabelas
 \RequirePackage{caption}         % Personalização de legendas
+\RequirePackage{tabularray}      % Melhor ambiente de tabelas
+\UseTblrLibrary{booktabs}
 
 % Pacotes para bibliografia
 \RequirePackage[style=abnt,backend=biber]{biblatex}  % Formatação ABNT para referências
@@ -74,6 +76,13 @@
 
 % Configurações de espaçamento no início do parágrafo
 \setlength{\parindent}{1.25cm}
+
+% ======================================================================
+% CONFIGURAÇÃO DE TABELAS
+% ======================================================================
+% Tabelas longas possuem texto de continuação em português
+\DeclareTblrTemplate{contfoot-text}{default}{continua}
+\DeclareTblrTemplate{conthead-text}{default}{(continuação)}
 
 % ======================================================================
 % CONFIGURAÇÃO DE CABEÇALHOS E RODAPÉS
