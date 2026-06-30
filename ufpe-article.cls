@@ -33,7 +33,7 @@
 % Pacotes para figuras e tabelas
 \RequirePackage{graphicx}        % Inclusão e manipulação de imagens
 %\RequirePackage{booktabs}        % Melhores linhas para tabelas
-\RequirePackage{caption}         % Personalização de legendas
+%\RequirePackage{caption}         % Personalização de legendas
 \RequirePackage{tabularray}      % Melhor ambiente de tabelas
 \UseTblrLibrary{booktabs}
 
@@ -41,13 +41,13 @@
 \RequirePackage[style=abnt,backend=biber]{biblatex}  % Formatação ABNT para referências
 
 % Pacotes para layout e geometria
-\RequirePackage{geometry}        % Configurações avançadas de geometria da página
-
-% Pacotes para links e referências
-\RequirePackage{hyperref}        % Suporte a hiperlinks e referências cruzadas
+%\RequirePackage{geometry}        % Configurações avançadas de geometria da página
 
 % Pacotes para citações
 \RequirePackage{csquotes}
+
+% Pacotes para links e referências
+\RequirePackage{hyperref}        % Suporte a hiperlinks e referências cruzadas
 
 % ======================================================================
 % CONFIGURAÇÃO DE FONTES
@@ -72,10 +72,14 @@
 % Margens de acordo com as normas ABNT
 \setlrmarginsandblock{3cm}{2cm}{*}
 \setulmarginsandblock{3cm}{2cm}{*}
-\checkandfixthelayout
+
+% Configura o tamanho do cabeçalho antes do checkandfixthelayout
+\setlength{\headheight}{14.5pt}
+\setlength{\headsep}{0.7cm}
 
 % Configurações de espaçamento no início do parágrafo
 \setlength{\parindent}{1.25cm}
+\checkandfixthelayout
 
 % ======================================================================
 % CONFIGURAÇÃO DE TABELAS
@@ -98,17 +102,13 @@
 \aliaspagestyle{plain}{abntheadings}
 \aliaspagestyle{title}{empty}
 
-% Configuração de altura do cabeçalho
-\setlength{\headheight}{14.5pt}
-\setlength{\headsep}{0.7cm}
-
 % ======================================================================
 % FORMATAÇÃO DE SEÇÕES E TÍTULOS
 % ======================================================================
 % Formatação dos títulos de seção conforme ABNT
 \setsecheadstyle{\normalsize\bfseries\MakeUppercase}
-\setsubsecheadstyle{\normalsize\bfseries\MakeUppercase}
-\setsubsubsecheadstyle{\normalsize\bfseries\itshape}
+\setsubsecheadstyle{\normalsize}
+\setsubsubsecheadstyle{\normalsize\itshape}
 
 % Configuração de numeração de seções
 \counterwithout{figure}{section}
@@ -124,8 +124,9 @@
 %% Espaçamento 1.5 conforme normas ABNT e convenções de tipografia
 %% \OnehalfSpacing
 %% Espaçamento de 1.5 conforme normas ABNT e convenções do Microsoft Word
-\setSingleSpace{1.5}
-\SingleSpacing
+%\setSingleSpace{1.5}
+%\SingleSpacing
+\setstretch{1.5}
 
 % ======================================================================
 % CONFIGURAÇÃO DO SUMÁRIO (TOC)
@@ -139,7 +140,7 @@
 
 % Configurações unificadas de formatação do sumário
 % Fontes para entradas de seção
-\renewcommand{\cftsectionfont}{\bfseries\MakeUppercase}
+\renewcommand{\cftsectionfont}{\bfseries}
 \renewcommand{\cftsectionpagefont}{\bfseries}
 \renewcommand{\cftsubsectionfont}{\bfseries}
 \renewcommand{\cftsubsectionpagefont}{\bfseries}
@@ -182,6 +183,14 @@
 	\vspace{1em}
 	\par\nobreak
 }
+
+% ======================================================================
+% CONFIGURAÇÃO DE LEGENDAS
+% ======================================================================
+% Define o tamanho das legendas e centralização utilizando as funcionalidade do memoir.
+\captionnamefont{\footnotesize\bfseries}
+\captiontitlefont{\footnotesize}
+\captionstyle[\centering]{} % Centraliza se couber em uma linha
 
 % ======================================================================
 % VARIÁVEIS DE CONTROLE PARA VERIFICAÇÃO DE FLUXO
@@ -248,51 +257,55 @@
 	% #4: Departamento, #5: Graduação, #6: Disciplina, #7: Data
 
 	% Verificações de parâmetros obrigatórios
-	\ifx\relax#2\relax
-		\PackageError{ufpe-article}{Título do trabalho não fornecido. O comando \protect\ufpetitle precisa de um título como segundo parâmetro.}%
-	\fi
+	\ifblank{#2}{%
+		\PackageError{ufpe-article}{Título do trabalho não fornecido. O comando \protect\ufpetitle precisa de um título como segundo parâmetro.}{Forneça o título no segundo argumento.}%
+	}{}
 
-	\ifx\relax#3\relax
-		\PackageError{ufpe-article}{Nome do autor principal não fornecido. O comando \protect\ufpetitle precisa do autor principal como terceiro parâmetro.}%
-	\fi
+	\ifblank{#3}{%
+		\PackageError{ufpe-article}{Nome do autor principal não fornecido. O comando \protect\ufpetitle precisa do autor principal como terceiro parâmetro.}{Forneça o nome do autor.}%
+	}{}
 
-	\ifx\relax#4\relax
-		\PackageError{ufpe-article}{Departamento não fornecido. O comando \protect\ufpetitle precisa do departamento como quarto parâmetro.}%
-	\fi
+	\ifblank{#4}{%
+		\PackageError{ufpe-article}{Departamento não fornecido. O comando \protect\ufpetitle precisa do departamento como quarto parâmetro.}{Forneça o departamento.}%
+	}{}
 
 	\thispagestyle{empty}
 	\title{#2}
 	\author{#3}
 
 	% Altera a geometria da página para o título
-	\newgeometry{left=2cm, right=2cm, top=1cm, bottom=2cm}
+	%\newgeometry{left=2cm, right=2cm, top=1cm, bottom=2cm}
 
 	\begin{titlingpage}
-		\begin{center}
-			\vspace*{0.2cm}% Espaço um pouco reduzido do padrão
-			\@institutiontitleheader{#4}{#5}{#6}
+		% Recua 1cm para a esquerda e 0cm para a direita (ajustando a margem 3-2 para 2-2)
+		\begin{adjustwidth*}{-1cm}{0cm}
+			\begin{center}
+				\vspace*{0.2cm}% Espaço um pouco reduzido do padrão
+				\@institutiontitleheader{#4}{#5}{#6}
 
-			% Título centralizado - mais espaço entre cabeçalho e título
-			\vspace{4.5cm}
-			{\LARGE\bfseries\MakeUppercase{\thetitle}\par}
+				% Título centralizado - mais espaço entre cabeçalho e título
+				\vspace{4.5cm}
+				{\LARGE\bfseries\MakeUppercase{\thetitle}\par}
 
-			\ifblank{#1}{%
-				% Apenas autor principal
-				\vspace{2.5cm}
-				{\normalsize\bfseries\theauthor\par}
-			}{%
-				% Se há autores adicionais, processa a lista completa
-				\@processauthorlist{\theauthor}{#1}
-			}
+				\ifblank{#1}{%
+					% Apenas autor principal
+					\vspace{2.5cm}
+					{\normalsize\bfseries\theauthor\par}
+				}{%
+					% Se há autores adicionais, processa a lista completa
+					\@processauthorlist{\theauthor}{#1}
+				}
 
-			\vfill
-			\vspace{0.3cm}
-			\@titlefooter{#7}
-		\end{center}
+				\vfill
+				\vspace{0.3cm}
+				\@titlefooter{#7}
+			\end{center}
+		\end{adjustwidth*}
 	\end{titlingpage}
+	\setcounter{page}{2} % Impede que a próxima página volte a ser a página 1
 
 	% Retorna a geometria original
-	\restoregeometry
+	%\restoregeometry
 }
 
 % ---------------------------------------------------------------------
@@ -305,14 +318,14 @@
 \newcommand{\ufpeabstract}[4]{%
 	\global\@abstractusedtrue % Marca que o abstract foi utilizado (global para afetar todo o documento)
 
-	% Verificação apenas dos parâmetros fornecidos (não do uso do comando)
-	\ifx\relax#1\relax
+	% Verificação de parâmetros usando etoolbox (PackageWarning usa apenas 2 chaves)
+	\ifblank{#1}{%
 		\PackageWarning{ufpe-article}{Texto do resumo em português não fornecido. O comando \protect\ufpeabstract foi usado mas sem texto para o resumo.}%
-	\fi
+	}{}
 
-	\ifx\relax#3\relax
+	\ifblank{#3}{%
 		\PackageWarning{ufpe-article}{Texto do abstract em inglês não fornecido. O comando \protect\ufpeabstract foi usado mas sem texto para o abstract.}%
-	\fi
+	}{}
 
 	\thispagestyle{empty}
 	\section*{Resumo}
@@ -349,6 +362,7 @@
 		\PackageInfo{ufpe-article}{Resumo/abstract não foi incluído. Embora opcional, recomenda-se incluir resumo em trabalhos acadêmicos.}%
 	\fi
 
+	\clearpage % Garante que a numeração só inicie numa página nova e limpa
 	\pagestyle{abntheadings}
 }
 
@@ -370,6 +384,7 @@
 % Comando para formatar as referências
 % ---------------------------------------------------------------------
 \newcommand{\ufpereferences}{%
+	\clearpage
 	\renewcommand{\bibname}{REFERÊNCIAS}
 	\renewcommand{\refname}{REFERÊNCIAS}
 	\printbibliography[heading=bibintoc]
@@ -396,10 +411,10 @@
 	\par\vspace{0.5\baselineskip}% Adiciona espaço antes
 	\begin{adjustwidth}{4cm}{0cm}% Recuo de 4cm da margem esquerda
 		\setlength{\parindent}{0pt}% Sem recuo de primeira linha
-		\begin{Spacing}{1.0}% Espaçamento simples entre linhas usando o ambiente
+		\begin{SingleSpace}% Espaçamento simples entre linhas usando o ambiente
 			\footnotesize% Tamanho de fonte 10pt
 			}{%
-		\end{Spacing}%
+		\end{SingleSpace}%
 	\end{adjustwidth}%
 	\par\vspace{0.5\baselineskip}% Adiciona espaço depois
 	\let\@inquote\relax % Limpa a flag
@@ -415,6 +430,11 @@
 	\end{ufpequotation}
 }
 
+% Define o estilo padrão para as páginas pré-textuais
+\AtBeginDocument{%
+	\pagestyle{empty}
+	\pagenumbering{arabic}
+}
 % ======================================================================
 % DOCUMENTAÇÃO DE USO
 % ======================================================================
