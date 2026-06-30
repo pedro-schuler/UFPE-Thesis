@@ -126,7 +126,7 @@
 %% Espaçamento de 1.5 conforme normas ABNT e convenções do Microsoft Word
 %\setSingleSpace{1.5}
 %\SingleSpacing
-\setstretch{1.5}
+\setSpacing{1.5}
 
 % ======================================================================
 % CONFIGURAÇÃO DO SUMÁRIO (TOC)
@@ -275,6 +275,8 @@
 
 	% Altera a geometria da página para o título
 	%\newgeometry{left=2cm, right=2cm, top=1cm, bottom=2cm}
+	\begingroup
+	\let\cleardoublepage\clearpage % Neutraliza a regra de página dupla do memoir
 
 	\begin{titlingpage}
 		% Recua 1cm para a esquerda e 0cm para a direita (ajustando a margem 3-2 para 2-2)
@@ -302,6 +304,7 @@
 			\end{center}
 		\end{adjustwidth*}
 	\end{titlingpage}
+	\endgroup
 	\setcounter{page}{2} % Impede que a próxima página volte a ser a página 1
 
 	% Retorna a geometria original

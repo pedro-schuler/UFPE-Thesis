@@ -137,7 +137,7 @@
 %% Espaçamento de 1.5 conforme normas ABNT e convenções do Microsoft Word
 %\setSingleSpace{1.5}
 %\SingleSpacing
-\setstretch{1.5}
+\setSpacing{1.5}
 
 % ======================================================================
 % CONFIGURAÇÃO DAS LISTAS E FIGURAS
